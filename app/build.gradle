@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion build_version.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.qingmei2.sample"
+        minSdkVersion build_version.minSdkVersion
+        targetSdkVersion build_version.targetSdkVersion
+        versionCode build_version.versionCode
+        versionName build_version.versionName
+
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        buildConfigField "String", "CLIENT_ID", properties.getProperty("CLIENT_ID")
+        buildConfigField "String", "CLIENT_SECRET", properties.getProperty("CLIENT_SECRET")
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':architecture-core')
+
+    implementation libs.appcompat
+    implementation libs.recyclerview
+    implementation libs.design
+    implementation libs.constraint
+    implementation libs.flexbox
+    implementation libs.swiperefreshlayout
+
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.cpacm:floatingmusicmenu:1.0.0'
+
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+
+    debugImplementation libs.leak_canary_debug
+    debugImplementation libs.leak_canary_debug_support
+    releaseImplementation libs.leak_canary_release
+
+    kapt libs.glide_compiler
+    kapt libs.jetpack_room_compiler
+    kapt libs.jetpack_lifecycle_compiler
+
+    testImplementation libs.junit
+
+    androidTestImplementation libs.espresso_core
+}
+
+kapt {
+    arguments {
+        arg("room.schemaLocation", "$projectDir/schemas".toString())
+    }
+}
