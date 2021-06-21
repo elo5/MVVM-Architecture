@@ -2,7 +2,7 @@ package com.github.qingmei2.plugin
 
 object Versions {
     const val android_plugin = "4.0.0"
-    const val kotlin = "1.3.72"
+    const val kotlin = "1.4.10"
     const val kotlin_coroutines = "1.3.3"
 
     const val appcompat = "1.1.0"

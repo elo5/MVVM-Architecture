@@ -6,11 +6,12 @@ import androidx.navigation.Navigation
 import com.qingmei2.architecture.core.base.view.activity.BaseActivity
 import com.qingmei2.sample.R
 import dagger.hilt.android.AndroidEntryPoint
+import com.qingmei2.sample.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    override val layoutId = R.layout.activity_main
+    override fun getViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
     override fun onSupportNavigateUp(): Boolean =
             Navigation.findNavController(this, R.id.navHostFragment).navigateUp()

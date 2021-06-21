@@ -2,7 +2,6 @@ plugins {
     id "com.github.qingmei2.plugin"
     id "com.android.application"
     id "kotlin-android"
-    id "kotlin-android-extensions"
     id "kotlin-kapt"
     id "dagger.hilt.android.plugin"
     id "com.google.protobuf" version "0.8.12"
@@ -54,6 +53,10 @@ android {
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 }
 

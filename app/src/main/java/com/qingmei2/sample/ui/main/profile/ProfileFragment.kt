@@ -7,17 +7,14 @@ import com.bumptech.glide.request.RequestOptions
 import com.qingmei2.architecture.core.base.view.fragment.BaseFragment
 import com.qingmei2.architecture.core.ext.observe
 import com.qingmei2.architecture.core.image.GlideApp
-import com.qingmei2.sample.R
+import com.qingmei2.sample.databinding.FragmentProfileBinding
 import com.qingmei2.sample.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_profile.*
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment() {
+class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private val mViewModel: ProfileViewModel by viewModels()
-
-    override val layoutId: Int = R.layout.fragment_profile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,7 +24,7 @@ class ProfileFragment : BaseFragment() {
     private fun binds() {
         observe(mViewModel.viewStateLiveData, this::onNewState)
 
-        mBtnEdit.setOnClickListener { toast("coming soon...") }
+        binding.mBtnEdit.setOnClickListener { toast("coming soon...") }
     }
 
     private fun onNewState(state: ProfileViewState) {
@@ -39,11 +36,11 @@ class ProfileFragment : BaseFragment() {
             GlideApp.with(requireContext())
                     .load(state.userInfo.avatarUrl)
                     .apply(RequestOptions().circleCrop())
-                    .into(mIvAvatar)
+                    .into(binding.mIvAvatar)
 
-            mTvNickname.text = state.userInfo.name
-            mTvBio.text = state.userInfo.bio
-            mTvLocation.text = state.userInfo.location
+            binding.mTvNickname.text = state.userInfo.name
+            binding.mTvBio.text = state.userInfo.bio
+            binding.mTvLocation.text = state.userInfo.location
         }
     }
 }

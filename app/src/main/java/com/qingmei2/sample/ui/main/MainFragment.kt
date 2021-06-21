@@ -10,18 +10,16 @@ import androidx.viewpager.widget.ViewPager
 import com.qingmei2.architecture.core.adapter.ViewPagerAdapter
 import com.qingmei2.architecture.core.base.view.fragment.BaseFragment
 import com.qingmei2.sample.R
+import com.qingmei2.sample.databinding.FragmentMainBinding
 import com.qingmei2.sample.ui.main.home.HomeFragment
 import com.qingmei2.sample.ui.main.profile.ProfileFragment
 import com.qingmei2.sample.ui.main.repos.ReposFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_main.*
 
 @Suppress("PLUGIN_WARNING")
 @SuppressLint("CheckResult")
 @AndroidEntryPoint
-class MainFragment : BaseFragment() {
-
-    override val layoutId: Int = R.layout.fragment_main
+class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private val mViewModel: MainViewModel by viewModels()     // not used
 
@@ -31,9 +29,9 @@ class MainFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         isPortMode = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 
-        viewPager.adapter = ViewPagerAdapter(childFragmentManager,
+        binding.viewPager.adapter = ViewPagerAdapter(childFragmentManager,
                 listOf(HomeFragment(), ReposFragment(), ProfileFragment()))
-        viewPager.offscreenPageLimit = 2
+        binding.viewPager.offscreenPageLimit = 2
 
         when (isPortMode) {
             true -> bindsPortScreen()
@@ -42,7 +40,7 @@ class MainFragment : BaseFragment() {
     }
 
     private fun bindsPortScreen() {
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = Unit
 
@@ -51,31 +49,31 @@ class MainFragment : BaseFragment() {
 
             override fun onPageScrollStateChanged(state: Int) = Unit
         })
-        navigation.setOnNavigationItemSelectedListener { menuItem ->
+        binding.navigation?.setOnNavigationItemSelectedListener { menuItem ->
             onBottomNavigationSelectChanged(menuItem)
             true
         }
     }
 
     private fun bindsLandScreen() {
-        fabHome.setOnClickListener { onPageSelectChanged(0) }
-        fabRepo.setOnClickListener { onPageSelectChanged(1) }
-        fabProfile.setOnClickListener { onPageSelectChanged(2) }
+        binding.fabHome?.setOnClickListener { onPageSelectChanged(0) }
+        binding.fabRepo?.setOnClickListener { onPageSelectChanged(1) }
+        binding.fabProfile?.setOnClickListener { onPageSelectChanged(2) }
     }
 
     private fun onPageSelectChanged(index: Int) {
         // port-mode
         if (isPortMode) {
             for (position in 0..index) {
-                if (navigation.visibility == View.VISIBLE)
-                    navigation.menu.getItem(position).isChecked = index == position
+                if (binding.navigation?.visibility == View.VISIBLE)
+                    binding.navigation?.menu?.getItem(position)?.isChecked = index == position
             }
         } else {
             // land-mode
-            if (viewPager.currentItem != index) {
-                viewPager.currentItem = index
-                if (fabMenu != null && fabMenu.isExpanded)
-                    fabMenu.toggle()
+            if (binding.viewPager.currentItem != index) {
+                binding.viewPager.currentItem = index
+                if (binding.fabMenu != null && binding.fabMenu.isExpanded)
+                    binding.fabMenu.toggle()
             }
         }
     }
@@ -84,13 +82,13 @@ class MainFragment : BaseFragment() {
     private fun onBottomNavigationSelectChanged(menuItem: MenuItem) {
         when (menuItem.itemId) {
             R.id.nav_home -> {
-                viewPager.currentItem = 0
+                binding.viewPager.currentItem = 0
             }
             R.id.nav_repos -> {
-                viewPager.currentItem = 1
+                binding.viewPager.currentItem = 1
             }
             R.id.nav_profile -> {
-                viewPager.currentItem = 2
+                binding.viewPager.currentItem = 2
             }
         }
     }

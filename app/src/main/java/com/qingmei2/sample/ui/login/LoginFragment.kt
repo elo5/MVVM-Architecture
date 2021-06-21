@@ -3,25 +3,19 @@ package com.qingmei2.sample.ui.login
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.prepareCall
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
+
 import androidx.fragment.app.viewModels
 import com.qingmei2.architecture.core.base.view.fragment.BaseFragment
 import com.qingmei2.architecture.core.ext.observe
-import com.qingmei2.sample.R
+import com.qingmei2.sample.databinding.FragmentLoginBinding
 import com.qingmei2.sample.http.Errors
 import com.qingmei2.sample.ui.MainActivity
 import com.qingmei2.sample.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_login.*
 import retrofit2.HttpException
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment() {
-
-    override val layoutId: Int = R.layout.fragment_login
+class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private val mViewModel: LoginViewModel by viewModels()
 
@@ -31,8 +25,8 @@ class LoginFragment : BaseFragment() {
     }
 
     private fun binds() {
-        mBtnSignIn.setOnClickListener {
-            mViewModel.login(tvUsername.text.toString(), tvPassword.text.toString())
+        binding.mBtnSignIn.setOnClickListener {
+            mViewModel.login(binding.tvUsername.text.toString(), binding.tvPassword.text.toString())
         }
 
         observe(mViewModel.stateLiveData, this::onNewState)
@@ -41,9 +35,8 @@ class LoginFragment : BaseFragment() {
 
     private fun onAutoLogin(autoLoginEvent: AutoLoginEvent) {
         if (autoLoginEvent.autoLogin) {
-            tvUsername.setText(autoLoginEvent.username, TextView.BufferType.EDITABLE)
-            tvPassword.setText(autoLoginEvent.password, TextView.BufferType.EDITABLE)
-
+            binding.tvUsername.setText(autoLoginEvent.username, TextView.BufferType.EDITABLE)
+            binding.tvPassword.setText(autoLoginEvent.password, TextView.BufferType.EDITABLE)
             mViewModel.login(autoLoginEvent.username, autoLoginEvent.password)
         }
     }
@@ -63,7 +56,7 @@ class LoginFragment : BaseFragment() {
             }
         }
 
-        mProgressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
+        binding.mProgressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
 
         if (state.loginInfo != null) {
             MainActivity.launch(requireActivity())

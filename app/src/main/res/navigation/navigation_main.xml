@@ -10,4 +10,5 @@
         android:name="com.qingmei2.sample.ui.main.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/activity_main" />
+
 </navigation>

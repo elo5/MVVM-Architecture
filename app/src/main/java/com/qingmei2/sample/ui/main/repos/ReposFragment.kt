@@ -10,48 +10,40 @@ import com.qingmei2.architecture.core.base.view.fragment.BaseFragment
 import com.qingmei2.architecture.core.ext.jumpBrowser
 import com.qingmei2.architecture.core.ext.observe
 import com.qingmei2.sample.R
+import com.qingmei2.sample.databinding.FragmentReposBinding
 import com.qingmei2.sample.utils.removeAllAnimation
-import com.qingmei2.sample.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_repos.*
-import kotlinx.android.synthetic.main.fragment_repos.fabTop
-import kotlinx.android.synthetic.main.fragment_repos.mRecyclerView
-import kotlinx.android.synthetic.main.fragment_repos.mSwipeRefreshLayout
-import kotlinx.android.synthetic.main.fragment_repos.toolbar
 
 @AndroidEntryPoint
-class ReposFragment : BaseFragment() {
+class ReposFragment : BaseFragment<FragmentReposBinding>() {
 
     private val mViewModel: ReposViewModel by viewModels()
-
-    override val layoutId: Int = R.layout.fragment_repos
 
     private val mAdapter = ReposPagedAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolbar.inflateMenu(R.menu.menu_repos_filter_type)
+        binding.toolbar.inflateMenu(R.menu.menu_repos_filter_type)
 
-        mRecyclerView.adapter = mAdapter
-        mRecyclerView.removeAllAnimation()
+        binding.mRecyclerView.adapter = mAdapter
+        binding.mRecyclerView.removeAllAnimation()
 
         binds()
     }
 
     private fun binds() {
         // swipe refresh event.
-        mSwipeRefreshLayout.setOnRefreshListener {
+        binding.mSwipeRefreshLayout.setOnRefreshListener {
             mAdapter.refresh()
         }
 
         // when button was clicked, scrolling list to top.
-        fabTop.setOnClickListener {
-            mRecyclerView.scrollToPosition(0)
+        binding.fabTop.setOnClickListener {
+            binding.mRecyclerView.scrollToPosition(0)
         }
 
         // menu item clicked event.
-        toolbar.setOnMenuItemClickListener {
+        binding.toolbar.setOnMenuItemClickListener {
             onMenuSelected(it)
             true
         }
@@ -60,12 +52,12 @@ class ReposFragment : BaseFragment() {
         observe(mAdapter.getItemClickEvent(), requireActivity()::jumpBrowser)
 
         observe(mAdapter.loadStateFlow.asLiveData()) { loadStates ->
-            mSwipeRefreshLayout.isRefreshing = loadStates.refresh is LoadState.Loading
+            binding.mSwipeRefreshLayout.isRefreshing = loadStates.refresh is LoadState.Loading
         }
 
         observe(mViewModel.pagedListLiveData) {
             mAdapter.submitData(lifecycle, it)
-            mRecyclerView.scrollToPosition(0)
+            binding.mRecyclerView.scrollToPosition(0)
         }
     }
 
