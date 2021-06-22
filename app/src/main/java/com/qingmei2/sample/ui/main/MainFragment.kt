@@ -5,10 +5,10 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import com.qingmei2.architecture.core.adapter.ViewPagerAdapter
 import com.qingmei2.architecture.core.base.view.fragment.BaseFragment
+import com.qingmei2.architecture.core.ext.initFragments
 import com.qingmei2.sample.R
 import com.qingmei2.sample.databinding.FragmentMainBinding
 import com.qingmei2.sample.ui.main.home.HomeFragment
@@ -21,17 +21,28 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>() {
 
-    private val mViewModel: MainViewModel by viewModels()     // not used
-
     private var isPortMode: Boolean = true
+
+    private val fragmentList = arrayListOf<Fragment>()
+    private val homeFragment by lazy { HomeFragment() }
+    private val reposFragment by lazy { ReposFragment() }
+    private val profileFragment by lazy { ProfileFragment() }
+
+    init {
+        fragmentList.apply {
+            add(homeFragment)
+            add(reposFragment)
+            add(profileFragment)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         isPortMode = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 
-        binding.viewPager.adapter = ViewPagerAdapter(childFragmentManager,
-                listOf(HomeFragment(), ReposFragment(), ProfileFragment()))
-        binding.viewPager.offscreenPageLimit = 2
+        binding.viewPager.initFragments(childFragmentManager,fragmentList).run {
+            offscreenPageLimit = fragmentList.size
+        }
 
         when (isPortMode) {
             true -> bindsPortScreen()
@@ -41,12 +52,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private fun bindsPortScreen() {
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = Unit
-
             override fun onPageSelected(position: Int) = onPageSelectChanged(position)
-
-
             override fun onPageScrollStateChanged(state: Int) = Unit
         })
         binding.navigation?.setOnNavigationItemSelectedListener { menuItem ->
@@ -72,8 +79,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             // land-mode
             if (binding.viewPager.currentItem != index) {
                 binding.viewPager.currentItem = index
-                if (binding.fabMenu != null && binding.fabMenu.isExpanded)
-                    binding.fabMenu.toggle()
+                if (binding.fabMenu != null && binding.fabMenu!!.isExpanded)
+                    binding.fabMenu!!.toggle()
             }
         }
     }

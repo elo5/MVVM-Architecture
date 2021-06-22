@@ -2,8 +2,9 @@ package com.github.qingmei2.plugin
 
 object Versions {
     const val android_plugin = "4.0.0"
-    const val kotlin = "1.4.10"
+    const val kotlin = "1.3.72"
     const val kotlin_coroutines = "1.3.3"
+    const val coroutines_version = "1.3.7"
 
     const val appcompat = "1.1.0"
     const val jetpack_lifecycle = "2.2.0-rc03"
@@ -42,7 +43,8 @@ object BuildVersions {
 }
 
 object Dependencies {
-    const val kotlinLibrary = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    const val kotlinLibrary = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
+    const val kotlinCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines_version}"
     const val kotlinCoroutinesLibrary = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlin_coroutines}"
     const val kotlinCoroutinesTestLibrary = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlin_coroutines}"
 

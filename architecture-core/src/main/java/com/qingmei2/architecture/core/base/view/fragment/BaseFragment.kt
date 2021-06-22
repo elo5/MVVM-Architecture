@@ -24,7 +24,10 @@ abstract class BaseFragment<B:ViewBinding> : Fragment(), IView {
                               savedInstanceState: Bundle?): View {
 
         val superclass: Type = javaClass.genericSuperclass!!
-        val aClass = (superclass as ParameterizedType).actualTypeArguments[1] as Class<*>
+
+        //val whatisit = (superclass as ParameterizedType).actualTypeArguments
+
+        val aClass = (superclass as ParameterizedType).actualTypeArguments[0] as Class<*>
         try {
             val method: Method = aClass.getDeclaredMethod(
                 "inflate",

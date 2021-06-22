@@ -13,7 +13,7 @@ android {
     compileSdkVersion BuildVersions.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.qingmei2.sample"
+        applicationId "com.qingmei20.sample"
         minSdkVersion BuildVersions.minSdkVersion
         targetSdkVersion BuildVersions.targetSdkVersion
         versionCode BuildVersions.versionCode
@@ -71,6 +71,15 @@ dependencies {
     implementation Dependencies.constraintlayout
     implementation Dependencies.flexbox
     implementation Dependencies.swiperefreshlayout
+
+//    implementation Dependencies.kotlinLibrary
+//    implementation Dependencies.kotlinCoroutinesCore
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72"
+
+    def coroutines_version = "1.3.7"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.cpacm:floatingmusicmenu:1.0.0'
