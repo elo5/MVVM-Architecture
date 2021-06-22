@@ -7,6 +7,7 @@ object Versions {
     const val coroutines_version = "1.3.7"
 
     const val appcompat = "1.1.0"
+    const val appcompatA = "1.3.0-alpha01"
     const val jetpack_lifecycle = "2.2.0-rc03"
     const val jetpack_viewModel = "2.2.0-rc03"
     const val jetpack_room = "2.3.0"
@@ -49,7 +50,7 @@ object Dependencies {
     const val kotlinCoroutinesTestLibrary = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlin_coroutines}"
 
     const val appcompatV4 = "androidx.legacy:legacy-support-v4:${Versions.appcompat}"
-    const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
+    const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompatA}"
     const val appcompatV13 = "androidx.legacy:legacy-support-v13:${Versions.appcompat}"
     const val materialDesign = "com.google.android.material:material:1.2.0-alpha03"
     const val recyclerview = "androidx.recyclerview:recyclerview:${Versions.appcompat}"
@@ -92,8 +93,8 @@ object Dependencies {
     const val roomRx = "androidx.room:room-rxjava2:${Versions.jetpack_room}"
     const val roomTesting = "androidx.room:room-testing:${Versions.jetpack_room}"
 
-    const val okhttp = "com.squareup.okhttp3:okhttp:4.3.0"
-    const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:4.3.0"
+    const val okhttp = "com.squareup.okhttp3:okhttp:4.9.1"
+    const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:4.9.1"
 
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val retrofitGson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
